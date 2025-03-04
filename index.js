@@ -47,3 +47,56 @@ function searchBook() {
         console.log(chalk.red('Buku tidak ditemukan!'));
     }
 }
+
+function deleteBook() {
+    listBooks();
+    const num = readlineSync.questionInt(chalk.green('Masukkan nomor buku yang ingin dihapus: ')) - 1;
+    const books = loadBooks();
+    if (num >= 0 && num < books.length) {
+        console.log(chalk.red(Menghapus buku: ${books[num].title}));
+        books.splice(num, 1);
+        saveBooks(books);
+    } else {
+        console.log(chalk.red('Nomor buku tidak valid!'));
+    }
+}
+
+function updateBook() {
+    listBooks();
+    const num = readlineSync.questionInt(chalk.green('Masukkan nomor buku yang ingin diupdate: ')) - 1;
+    const books = loadBooks();
+    if (num >= 0 && num < books.length) {
+        const book = books[num];
+        book.title = readlineSync.question(chalk.green(`Judul (${book.title}): `)) || book.title;
+        book.author = readlineSync.question(chalk.green(`Penulis (${book.author}): `)) || book.author;
+        book.year = readlineSync.question(chalk.green(`Tahun (${book.year}): `)) || book.year;
+        saveBooks(books);
+        console.log(chalk.blue('Buku berhasil diperbarui!'));
+    } else {
+        console.log(chalk.red('Nomor buku tidak valid!'));
+    }
+}
+
+function showNewestBook() {
+    const books = loadBooks().sort((a, b) => b.year - a.year);
+    console.log(chalk.green(Buku terbaru: ${books[0].title} (${books[0].year}) oleh ${books[0].author}));
+}
+
+function showOldestBook() {
+    const books = loadBooks().sort((a, b) => a.year - b.year);
+    console.log(chalk.green(Buku tertua: ${books[0].title} (${books[0].year}) oleh ${books[0].author}));
+}
+
+function countBooks() {
+    console.log(chalk.green(Total jumlah buku dalam perpustakaan: ${loadBooks().length}));
+}
+
+function recommendBook() {
+    const books = loadBooks();
+    if (books.length > 0) {
+        const book = books[Math.floor(Math.random() * books.length)];
+        console.log(chalk.green(Rekomendasi buku: ${book.title} (${book.year}) oleh ${book.author}));
+    } else {
+        console.log(chalk.yellow('Tidak ada buku untuk direkomendasikan.'));
+    }
+}

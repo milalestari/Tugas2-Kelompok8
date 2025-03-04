@@ -100,3 +100,41 @@ function recommendBook() {
         console.log(chalk.yellow('Tidak ada buku untuk direkomendasikan.'));
     }
 }
+
+function mainMenu() {
+    console.clear();
+    console.log(boxen(chalk.blue('📚 PERPUSTAKAAN DIGITAL 📚'), { padding: 1, margin: 1, borderStyle: 'double' }));
+    console.log(chalk.cyan('Pilih aksi:'));
+    console.log(chalk.yellow('1. Lihat daftar buku'));
+    console.log(chalk.yellow('2. Tambah buku'));
+    console.log(chalk.yellow('3. Cari buku berdasarkan judul'));
+    console.log(chalk.yellow('4. Hapus buku'));
+    console.log(chalk.yellow('5. Update informasi buku'));
+    console.log(chalk.yellow('6. Tampilkan buku terbaru'));
+    console.log(chalk.yellow('7. Tampilkan buku tertua'));
+    console.log(chalk.yellow('8. Hitung jumlah buku'));
+    console.log(chalk.yellow('9. Rekomendasi buku acak'));
+    console.log(chalk.red('10. Keluar'));
+    const choice = readlineSync.question(chalk.green('Masukkan nomor: '));
+
+    switch (choice) {
+        case '1': listBooks(); break;
+        case '2': addBook(); break;
+        case '3': searchBook(); break;
+        case '4': deleteBook(); break;
+        case '5': updateBook(); break;
+        case '6': showNewestBook(); break;
+        case '7': showOldestBook(); break;
+        case '8': countBooks(); break;
+        case '9': recommendBook(); break;
+        case '10':
+            console.log(chalk.magenta('Terima kasih telah menggunakan Perpustakaan Digital!'));
+            process.exit();
+        default:
+            console.log(chalk.red('Pilihan tidak valid!'));
+    }
+    readlineSync.question(chalk.gray('\nTekan Enter untuk kembali ke menu...'));
+    mainMenu();
+}
+
+mainMenu();
